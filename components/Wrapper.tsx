@@ -1,11 +1,24 @@
-import React from 'react';
+import React from "react"
+
+export type WrapperVariant = "small" | "regular"
 
 interface WrapperProps {
-  children?: any;
+	children?: any
+	variant?: WrapperVariant
 }
 
-export const Wrapper: React.FC<WrapperProps> = ({ children }) => {
-  return (
-    <div className='box-border w-100% mt-8 mx-auto max-w-800'>{children}</div>
-  );
-};
+export const Wrapper: React.FC<WrapperProps> = ({
+	children,
+	variant = "regular",
+}) => {
+	return (
+		<div
+			className={
+				"flex container items-center justify-start" +
+				(variant === "regular" ? "max-w-[800px]" : "max-w-[400px]")
+			}
+		>
+			{children}
+		</div>
+	)
+}
