@@ -1,19 +1,12 @@
 import type { NextPage } from "next"
-import { Login } from "../components/api-authorization/Login"
-import { RegistrationForm } from "../components/api-authorization/RegistrationForm"
-import { Layout } from "../components/Layout"
-import ListOfPosts from "../components/ListOfPosts"
+import Layout from "./Layout"
+import BlogPosts from "../components/Posts/BlogPosts"
 
 const Home: NextPage = () => {
 	return (
-		<>
-			<RegistrationForm />
-			<Login />
-		</>
-		// <Login />
-		// <Layout>
-		// 	<ListOfPosts />
-		// </Layout>
+		<Layout>
+			<BlogPosts />
+		</Layout>
 	)
 }
 
