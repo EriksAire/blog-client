@@ -2,11 +2,18 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 import PostType from "../../types/post"
 import axios from "axios"
-import { API_URL } from "../../constants"
+import { API_URL, API_URL_AUTH } from "../../constants"
 import { getCookie } from "cookies-next"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { NavBar } from "../../components/NavBar"
 import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/outline"
+import { User } from "@styled-icons/heroicons-outline"
+
+interface CommentProps {
+	PostID: number
+	CommentBody: string
+	AuthorName: string
+}
 
 const token = getCookie("jwt")
 
@@ -39,8 +46,48 @@ const putData = (post: PostType) => {
 const Post: React.FC = () => {
 	const [post, setPost] = useState<PostType>()
 	const [isLoading, setLoading] = useState<boolean>(true)
+	const [commentBody, setCommentBody] = useState<string>()
 	const router = useRouter()
 	const id = router.query.id as string
+	const [user, setUser] = useState<any>()
+
+	const getUser = async () => {
+		await axios
+			.get(`${API_URL_AUTH}/user`, {
+				withCredentials: true,
+				headers: {
+					"Content-Type": "application/json",
+				},
+			})
+			.then((res) => {
+				setUser(res.data)
+				console.log(res.data)
+			})
+			.catch((err) => console.log("Login post error", err))
+	}
+
+	const submit = async () => {
+		const comment = {
+			CommentBody: commentBody,
+			Name: user.name,
+			PostID: id,
+		}
+
+		return await axios
+			.post(`${API_URL}/AddComment`, comment, {
+				withCredentials: true,
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: "Bearer " + token,
+				},
+			})
+			.then((res) => {
+				console.log(res)
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+	}
 
 	const upVote = (isUpVote: boolean) => {
 		if (token == null) {
@@ -60,10 +107,12 @@ const Post: React.FC = () => {
 		putData(postToVote)
 		setPost(postToVote)
 	}
+
 	useEffect(() => {
 		fetchPost(id).then((data) => {
 			setPost(data)
 			setLoading(false)
+			getUser()
 			console.log(data)
 		})
 	}, [router.isReady]) //TODO: Find a better way to fetch data, without getting errors on first load
@@ -91,6 +140,25 @@ const Post: React.FC = () => {
 					<div className="font-bold py-2">{post.title}</div>
 					<div className="py-2">{post.postBody}</div>
 					<div>Comment Section</div>
+				</div>
+
+				<div className="max-w-lg shadow-md">
+					<form onSubmit={submit} className="w-full p-4">
+						<label className="block mb-2">
+							<span className="text-gray-600">Add a comment</span>
+							<textarea
+								id="commentBody"
+								className="block w-full mt-1 rounded"
+								onChange={(e) => setCommentBody(e.target.value)}
+							></textarea>
+						</label>
+						<button
+							className="px-3 py-2 text-sm text-blue-100 bg-blue-600 rounded"
+							type="submit"
+						>
+							Comment
+						</button>
+					</form>
 				</div>
 			</div>
 		</>

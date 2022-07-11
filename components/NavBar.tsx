@@ -41,6 +41,7 @@ export const NavBar: React.FC<any> = () => {
 	useEffect(() => {
 		getUser()
 	}, [])
+
 	const getUser = async () => {
 		await axios
 			.get(`${API_URL_AUTH}/user`, {
