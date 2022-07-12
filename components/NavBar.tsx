@@ -17,7 +17,6 @@ import {
 } from "@heroicons/react/outline"
 import react from "react"
 import { getCookie } from "cookies-next"
-import Login from "../pages/login"
 import { LoginButton } from "./LoginButton"
 import { RegistrationButton } from "./RegistrationButton"
 import axios from "axios"

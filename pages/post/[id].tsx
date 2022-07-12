@@ -123,32 +123,32 @@ const Post: React.FC = () => {
 	return (
 		<>
 			<NavBar />
-
-			<div className="flex container mx-auto max-w-[800px] bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 mt-2">
-				<div className="flex flex-col items-center justify-start space-y-1 rounded-l-md bg-gray-50 p-4 text-gray-400">
-					<ArrowUpIcon
-						onClick={() => upVote(true)}
-						className={`voteButtons hover:text-blue-400 h-6 w-6`}
-					/>
-					<div className="max-w-[200px]">{post.rating}</div>
-					<ArrowDownIcon
-						onClick={() => upVote(false)}
-						className={`voteButtons hover:text-blue-400 h-6 w-6`}
-					></ArrowDownIcon>
+			<div className="flex flex-col container items-center pt-20">
+				<div className="flex container mx-auto max-w-[800px] bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 mt-2">
+					<div className="flex flex-col items-center justify-start space-y-1 rounded-l-md bg-gray-50 p-4 text-gray-400">
+						<ArrowUpIcon
+							onClick={() => upVote(true)}
+							className={`voteButtons hover:text-blue-400 h-6 w-6`}
+						/>
+						<div className="max-w-[200px]">{post.rating}</div>
+						<ArrowDownIcon
+							onClick={() => upVote(false)}
+							className={`voteButtons hover:text-blue-400 h-6 w-6`}
+						></ArrowDownIcon>
+					</div>
+					<div className="px-5 break-all">
+						<div className="font-bold py-2">{post.title}</div>
+						<div className="py-2">{post.postBody}</div>
+						<div>Comment Section</div>
+					</div>
 				</div>
-				<div className="px-5 break-all">
-					<div className="font-bold py-2">{post.title}</div>
-					<div className="py-2">{post.postBody}</div>
-					<div>Comment Section</div>
-				</div>
-
-				<div className="max-w-lg shadow-md">
-					<form onSubmit={submit} className="w-full p-4">
+				<div className="flex max-w-lg shadow-md w-[800px] mx-auto">
+					<form onSubmit={submit} className="w-full p-4 flex-row">
 						<label className="block mb-2">
 							<span className="text-gray-600">Add a comment</span>
 							<textarea
 								id="commentBody"
-								className="block w-full mt-1 rounded"
+								className="block w-full mt-1 rounded resize-none"
 								onChange={(e) => setCommentBody(e.target.value)}
 							></textarea>
 						</label>
