@@ -1,7 +1,10 @@
 import axios from "axios"
+import { getCookie } from "cookies-next"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { API_URL_AUTH } from "../constants"
+
+const token = getCookie("jwt")
 
 const logout: React.FC = () => {
 	const router = useRouter()
@@ -14,6 +17,7 @@ const logout: React.FC = () => {
 				withCredentials: true,
 				headers: {
 					"Content-Type": "application/json",
+					Authorization: "Bearer " + token,
 				},
 			}
 		)
