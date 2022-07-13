@@ -1,12 +1,13 @@
 import axios from "axios"
 import { getCookie } from "cookies-next"
 import { useRouter } from "next/router"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { API_URL_AUTH } from "../constants"
 
 const token = getCookie("jwt")
 
-const logout: React.FC = () => {
+const Logout: React.FC<{}> = () => {
+	const [redirect, setRedirect] = useState(false)
 	const router = useRouter()
 
 	const fetchData = async () => {
@@ -21,13 +22,16 @@ const logout: React.FC = () => {
 				},
 			}
 		)
+	}
+	if (redirect) {
 		router.push("/")
 	}
 	useEffect(() => {
 		fetchData()
+		setRedirect(true)
 	}, [])
 
 	return <div>Loggin out...</div>
 }
 
-export default logout
+export default Logout
