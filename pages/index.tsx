@@ -15,11 +15,20 @@ type Props = {
 }
 
 const Home = ({ items }: Props) => {
+	if (items == null) return <div>Loading</div>
 	console.log(items)
 	return (
 		<div>
 			{items.map((item) => {
-				return item.postBody
+				return (
+					<BlogPost
+						key={item.id}
+						id={item.id}
+						postBody={item.postBody}
+						rating={item.rating}
+						title={item.title}
+					/>
+				)
 			})}
 		</div>
 	)
